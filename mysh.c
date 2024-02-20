@@ -29,7 +29,7 @@ int main() {
         if (fgets(input, sizeof(input), stdin) == NULL) {
             break;
         }
-        input[strcspn(input, "\n")] = 0;  // Remove newline character
+        input[strcspn(input, "\n")] = 0;  /* Remove newline character */
 
         tokenize(input, A);
 
