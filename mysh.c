@@ -5,24 +5,31 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#define MAX 20
+/*
+Jacob Neel
+CS 390-01
+Programming Assignment 1
+2/20/2024
+*/
+
+#define MAX 20 /* Maximum number of tokens */
 
 void tokenize(char *input, char *A[MAX]) {
     char *p;
     int i;
 
-    p = strtok(input, " ");
+    p = strtok(input, " "); /* Find first token */
     for (i = 0; p != NULL && i < (MAX - 1); ++i) {
         A[i] = p;
-        p = strtok(NULL, " \t");
+        p = strtok(NULL, " \t"); /* Find next token */
     }
-    A[i] = NULL;
+    A[i] = NULL; /* Null-terminate the array */
 }
 
 int main() {
-    char input[256];
-    char *A[MAX];
-    char prompt[50] = "$ ";
+    char input[256]; /* Input buffer */
+    char *A[MAX];   /* Array of tokens */
+    char prompt[50] = "$ "; /* Prompt string */
 
     while (1) {
         printf("%s", prompt);
@@ -35,9 +42,9 @@ int main() {
 
         if (A[0] == NULL) {
             continue;
-        } else if (strcmp(A[0], "exit") == 0) {
+        } else if (strcmp(A[0], "exit") == 0) { /* exit command */
             break;
-        } else if (strcmp(A[0], "echo") == 0) {
+        } else if (strcmp(A[0], "echo") == 0) { /* echo command */
             int i = 1;
             while (A[i] != NULL) {
                 printf("%s ", A[i]);
@@ -46,9 +53,9 @@ int main() {
             if (strcmp(A[1], "-n") != 0) {
                 printf("\n");
             }
-        } else if (strcmp(A[0], "PS1") == 0) {
+        } else if (strcmp(A[0], "PS1") == 0) { /* PS1 command */
             strcpy(prompt, A[1]);
-        } else if (strcmp(A[0], "cat") == 0) {
+        } else if (strcmp(A[0], "cat") == 0) {  /* cat command */
             FILE *fp = fopen(A[1], "r");
             if (fp != NULL) {
                 char c;
@@ -60,7 +67,7 @@ int main() {
             } else {
                 printf("File not found\n");
             }
-        } else if (strcmp(A[0], "cp") == 0) {
+        } else if (strcmp(A[0], "cp") == 0) { /* cp command */
             FILE *source, *target;
             char ch;
 
@@ -84,19 +91,19 @@ int main() {
             fclose(source);
             fclose(target);
             printf("File copied successfully\n");
-        } else if (strcmp(A[0], "rm") == 0) {
+        } else if (strcmp(A[0], "rm") == 0) { /* rm command */
             if (remove(A[1]) == 0) {
                 printf("File deleted successfully\n");
             } else {
                 printf("Error deleting file\n");
             }
-        } else if (strcmp(A[0], "mkdir") == 0) {
+        } else if (strcmp(A[0], "mkdir") == 0) { /* mkdir command */
             if (mkdir(A[1], 0777) == 0) {
                 printf("Directory created successfully\n");
             } else {
                 printf("Error creating directory\n");
             }
-        } else if (strcmp(A[0], "rmdir") == 0) {
+        } else if (strcmp(A[0], "rmdir") == 0) { /* rmdir command */
             if (rmdir(A[1]) == 0) {
                 printf("Directory removed successfully\n");
             } else {
@@ -106,6 +113,5 @@ int main() {
             printf("Usage: echo, PS1, cat, cp, rm, mkdir, rmdir, exit\n");
         }
     }
-
     return 0;
 }
